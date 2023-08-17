@@ -55,6 +55,9 @@ def _swift_module_alias_impl(ctx):
         unsupported_features = ctx.disabled_features,
     )
 
+    explicit_module_path_prefix = ctx.var.get("SWIFT_EXPLICIT_MODULE_PATH_PREFIX")
+
+
     module_context, compilation_outputs, other_compilation_outputs = swift_common.compile(
         actions = ctx.actions,
         copts = ["-parse-as-library"],
@@ -67,6 +70,7 @@ def _swift_module_alias_impl(ctx):
         swift_toolchain = swift_toolchain,
         target_name = ctx.label.name,
         workspace_name = ctx.workspace_name,
+        explicit_module_path_prefix = explicit_module_path_prefix,
     )
 
     linking_context, linking_output = (

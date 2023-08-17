@@ -18,7 +18,8 @@ def write_explicit_swift_module_map_file(
         *,
         actions,
         explicit_swift_module_map_file,
-        module_contexts):
+        module_contexts,
+        explicit_module_path_prefix):
     """Generates the JSON-formatted explicit module map file.
 
     This file is a manifest that contains the path information for all the
@@ -34,6 +35,10 @@ def write_explicit_swift_module_map_file(
     """
     module_descriptions = []
 
+    prefix_path = ""
+    if explicit_module_path_prefix and explicit_module_path_prefix != "":
+        prefix_path = explicit_module_path_prefix + "/"
+
     for module_context in module_contexts:
         if not module_context.swift:
             continue
@@ -44,7 +49,7 @@ def write_explicit_swift_module_map_file(
             "isFramework": False,
         }
         if swift_context.swiftmodule:
-            module_description["modulePath"] = swift_context.swiftmodule.path
+            module_description["modulePath"] = prefix_path + swift_context.swiftmodule.path
         module_descriptions.append(module_description)
 
     actions.write(

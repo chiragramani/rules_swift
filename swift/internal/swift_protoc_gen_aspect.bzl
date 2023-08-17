@@ -425,7 +425,9 @@ def _swift_protoc_gen_aspect_impl(target, aspect_ctx):
         )
 
         module_name = swift_common.derive_module_name(target.label)
+        explicit_module_path_prefix = aspect_ctx.var.get("SWIFT_EXPLICIT_MODULE_PATH_PREFIX")
 
+        
         module_context, cc_compilation_outputs, other_compilation_outputs = swift_common.compile(
             actions = aspect_ctx.actions,
             copts = ["-parse-as-library"],
@@ -438,6 +440,7 @@ def _swift_protoc_gen_aspect_impl(target, aspect_ctx):
             swift_toolchain = swift_toolchain,
             target_name = target.label.name,
             workspace_name = aspect_ctx.workspace_name,
+            explicit_module_path_prefix = explicit_module_path_prefix,
         )
 
         linking_context, linking_output = (

@@ -2032,7 +2032,8 @@ def compile_module_interface(
         module_name,
         swiftinterface_file,
         swift_infos,
-        swift_toolchain):
+        swift_toolchain,
+        explicit_module_path_prefix):
     """Compiles a Swift module interface.
 
     Args:
@@ -2104,6 +2105,7 @@ def compile_module_interface(
             swiftmodules = transitive_swiftmodules,
             vfsoverlay_file = vfsoverlay_file,
             virtual_swiftmodule_root = _SWIFTMODULES_VFS_ROOT,
+            module_path_prefix = explicit_module_path_prefix,
         )
     else:
         vfsoverlay_file = None
@@ -2122,6 +2124,7 @@ def compile_module_interface(
             actions = actions,
             explicit_swift_module_map_file = explicit_swift_module_map_file,
             module_contexts = transitive_modules,
+            explicit_module_path_prefix = explicit_module_path_prefix,
         )
     else:
         explicit_swift_module_map_file = None
@@ -2189,7 +2192,8 @@ def compile(
         srcs,
         swift_toolchain,
         target_name,
-        workspace_name):
+        workspace_name,
+        explicit_module_path_prefix = None):
     """Compiles a Swift module.
 
     Args:
@@ -2364,6 +2368,7 @@ def compile(
             swiftmodules = transitive_swiftmodules,
             vfsoverlay_file = vfsoverlay_file,
             virtual_swiftmodule_root = _SWIFTMODULES_VFS_ROOT,
+            module_path_prefix = explicit_module_path_prefix,
         )
     else:
         vfsoverlay_file = None
@@ -2384,6 +2389,7 @@ def compile(
             actions = actions,
             explicit_swift_module_map_file = explicit_swift_module_map_file,
             module_contexts = transitive_modules,
+            explicit_module_path_prefix = explicit_module_path_prefix,
         )
     else:
         explicit_swift_module_map_file = None

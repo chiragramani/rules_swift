@@ -28,6 +28,8 @@ def _swift_import_impl(ctx):
     swiftinterface = ctx.file.swiftinterface
     swiftmodule = ctx.file.swiftmodule
 
+    explicit_module_path_prefix = ctx.var.get("SWIFT_EXPLICIT_MODULE_PATH_PREFIX")
+
     # We have to depend on the C++ toolchain directly here to create the
     # libraries to link. Depending on the Swift toolchain causes a problematic
     # cyclic dependency for built-from-source toolchains.
@@ -83,6 +85,7 @@ def _swift_import_impl(ctx):
             swiftinterface_file = swiftinterface,
             swift_infos = swift_infos,
             swift_toolchain = swift_toolchain,
+            explicit_module_path_prefix = explicit_module_path_prefix,
         )
         swift_outputs = [
             module_context.swift.swiftmodule,

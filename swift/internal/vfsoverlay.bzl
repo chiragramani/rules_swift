@@ -18,7 +18,8 @@ def write_vfsoverlay(
         actions,
         swiftmodules,
         vfsoverlay_file,
-        virtual_swiftmodule_root):
+        virtual_swiftmodule_root,
+        module_path_prefix):
     """Generates a VFS overlay and writes it to a file.
 
     Args:
@@ -29,11 +30,20 @@ def write_vfsoverlay(
         virtual_swiftmodule_root: The rooted path fragment representing the
              directory in the VFS where all `.swiftmodule` files will be placed.
     """
+
+    prefix_path = ""
+    if module_path_prefix and module_path_prefix != "":
+        prefix_path = module_path_prefix
+
+    external_contents_prefix = ""
+    if prefix_path != "":
+        external_contents_prefix = prefix_path + "/"
+
     virtual_swiftmodules = [
         {
             "type": "file",
             "name": swiftmodule.basename,
-            "external-contents": swiftmodule.path,
+            "external-contents": external_contents_prefix + swiftmodule.path,
         }
         for swiftmodule in swiftmodules
     ]

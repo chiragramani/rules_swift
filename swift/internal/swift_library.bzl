@@ -172,6 +172,8 @@ def _swift_library_impl(ctx):
             attr = "generated_header_name",
         )
 
+    explicit_module_path_prefix = ctx.var.get("SWIFT_EXPLICIT_MODULE_PATH_PREFIX")
+
     module_context, cc_compilation_outputs, other_compilation_outputs = swift_common.compile(
         actions = ctx.actions,
         additional_inputs = additional_inputs,
@@ -188,6 +190,7 @@ def _swift_library_impl(ctx):
         swift_toolchain = swift_toolchain,
         target_name = ctx.label.name,
         workspace_name = ctx.workspace_name,
+        explicit_module_path_prefix = explicit_module_path_prefix,
     )
 
     linking_context, linking_output = (
